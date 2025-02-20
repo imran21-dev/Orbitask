@@ -7,6 +7,7 @@ import DragBoard from "../components/DragBoard";
 
 
 
+
 const HomePage = () => {
 
   const [taskForm, setTaskForm] = useState("");
@@ -45,7 +46,7 @@ const HomePage = () => {
 
 
   return (
-    <>
+    <div className=" h-32">
       <h1 className="font-semibold text-center pt-3 pb-4 text-xl">
         Manage your tasks
       </h1>
@@ -159,8 +160,8 @@ const HomePage = () => {
         </div>
       </div>
       <DragBoard></DragBoard>
-    
-    </>
+        
+    </div>
   );
 };
 

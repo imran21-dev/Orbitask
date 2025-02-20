@@ -14,7 +14,7 @@ const Navbar = () => {
     }
     return (
         <nav className="bg-gray-400/10 border-gray-400/20 border-b">
-            <section className="w-11/12 mx-auto flex items-center justify-between py-2">
+            <section className="w-11/12 mx-auto flex items-center justify-between h-12">
             <Link to='/' className="font-bold text-xl">Orbitask</Link>
             <div className="flex items-center gap-2">
             <ButtonSc><IoMdLogOut className="text-xl"/></ButtonSc>
