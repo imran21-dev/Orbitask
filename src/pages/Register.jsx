@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import signupImage from "../assets/signup.jpg";
 import Button from "../components/Button";
 import googlrPng from "../assets/google.png";
@@ -6,8 +6,10 @@ import { useContext } from "react";
 import { ThemeContext } from "../context/ContextApi";
 import { updateProfile } from "firebase/auth";
 import { auth } from "../context/firebase.config";
+import Swal from "sweetalert2";
 const Register = () => {
-  const {signUp} = useContext(ThemeContext)
+  const {signUp, googleLogin} = useContext(ThemeContext)
+  const navigate = useNavigate()
 
     const handleSignUp = (e) => {
         e.preventDefault()
@@ -21,15 +23,39 @@ const Register = () => {
             displayName: name
           })
           .then(() => {
-            console.log('signd')
+            navigate('/')
+            e.target.reset()
           })
           .catch((error) => {
-            console.log(error)
+            e.target.reset()
+            Swal.fire({
+              icon: "error",
+              title: "Something went wrong!",
+              text: `${error?.code}`,
+            });
           })
         })
         .catch((error) => {
-          console.log(error.code)
+          e.target.reset()
+          Swal.fire({
+            icon: "error",
+            title: "Something went wrong!",
+            text: `${error?.code}`,
+          });
         })
+    }
+    const handleGoogleSignIn = () => {
+      googleLogin()
+      .then(() => {
+        navigate('/')
+      })
+      .catch((error) => {
+        Swal.fire({
+          icon: "error",
+          title: "Something went wrong!",
+          text: `${error?.code}`,
+        });
+      })
     }
   return (
     <div className="grid grid-cols-4 h-screen">
@@ -46,7 +72,7 @@ const Register = () => {
           Sign up and take control—organize, prioritize, and achieve!
         </p>
 
-        <button className="border flex w-max rounded-full px-4 opacity-90 cursor-pointer items-center gap-1.5 py-1 text-sm md:text-base font-semibold border-gray-500/50">
+        <button onClick={handleGoogleSignIn} className="border flex w-max rounded-full px-4 opacity-90 cursor-pointer items-center gap-1.5 py-1 text-sm md:text-base font-semibold border-gray-500/50">
           <img src={googlrPng} alt="" className="w-3 h-3 md:h-5 md:w-5" />{" "}
           Continue with Google
         </button>
