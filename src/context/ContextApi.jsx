@@ -1,6 +1,7 @@
 import { createUserWithEmailAndPassword, GoogleAuthProvider, onAuthStateChanged, signInWithEmailAndPassword, signInWithPopup } from "firebase/auth";
 import { createContext, useEffect, useState } from "react";
 import { auth } from "./firebase.config";
+import axios from "axios";
 
 export const ThemeContext = createContext(null)
 
@@ -22,9 +23,12 @@ const ContextApi = ({children}) => {
     }
 
     useEffect(() => {
-        const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
+        const unsubscribe = onAuthStateChanged(auth, async(currentUser) => {
             setUser(currentUser)
             setLoading(false)
+            const newUser = {name: currentUser.displayName, email: currentUser.email}
+           const response = await axios.post('http://localhost:5000/add-user', newUser)
+           console.log(response.data)
         })
         return () => {
             unsubscribe()

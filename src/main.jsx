@@ -12,11 +12,12 @@ import Register from './pages/Register';
 import { ThemeProvider } from 'next-themes';
 import Login from './pages/Login';
 import ContextApi from './context/ContextApi';
+import PrivateRoute from './private/PrivateRoute';
 
 const router = createBrowserRouter([
   {
     path: "/",
-    element: <RootPage></RootPage>,
+    element: <PrivateRoute><RootPage></RootPage></PrivateRoute>,
     children: [
       {
         path: "/",
