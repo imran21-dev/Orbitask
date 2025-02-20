@@ -11,6 +11,7 @@ import RootPage from './RootPage';
 import Register from './pages/Register';
 import { ThemeProvider } from 'next-themes';
 import Login from './pages/Login';
+import ContextApi from './context/ContextApi';
 
 const router = createBrowserRouter([
   {
@@ -35,8 +36,10 @@ const router = createBrowserRouter([
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>
+    <ContextApi>
     <ThemeProvider attribute='class' defaultTheme='system' enableSystem>
     <RouterProvider router={router} />
     </ThemeProvider>
+    </ContextApi>
   </StrictMode>,
 )

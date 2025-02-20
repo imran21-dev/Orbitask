@@ -2,14 +2,34 @@ import { Link } from "react-router-dom";
 import signupImage from "../assets/signup.jpg";
 import Button from "../components/Button";
 import googlrPng from "../assets/google.png";
+import { useContext } from "react";
+import { ThemeContext } from "../context/ContextApi";
+import { updateProfile } from "firebase/auth";
+import { auth } from "../context/firebase.config";
 const Register = () => {
+  const {signUp} = useContext(ThemeContext)
+
     const handleSignUp = (e) => {
         e.preventDefault()
         const name = e.target.name.value
         const email = e.target.email.value
         const password = e.target.password.value
 
-        console.log(name,email,password)
+        signUp(email, password)
+        .then(() => {
+          updateProfile(auth.currentUser, {
+            displayName: name
+          })
+          .then(() => {
+            console.log('signd')
+          })
+          .catch((error) => {
+            console.log(error)
+          })
+        })
+        .catch((error) => {
+          console.log(error.code)
+        })
     }
   return (
     <div className="grid grid-cols-4 h-screen">
