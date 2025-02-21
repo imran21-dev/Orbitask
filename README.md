@@ -1,11 +1,11 @@
-# Task Management Application
+# Task Management Application (Orbitask)
 
 ## 📝 Short Description
 A powerful and intuitive task management application designed to help users organize, track, and collaborate on tasks efficiently. It features a sleek UI, real-time updates, and seamless drag-and-drop functionality.
 
 ## 🔗 Live Links
 - **Website:** [https://orbitask-89368.web.app/]
-- **Demo:** [Your Demo URL Here]
+- **Demo:** [https://orbitask-89368.web.app/]
 
 ## 🚀 Technologies Used
 The application is built using modern web technologies and libraries to ensure a smooth and responsive experience.
