@@ -1,14 +1,17 @@
 import axios from "axios";
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { IoIosAdd } from "react-icons/io";
 import Swal from "sweetalert2";
 import DragBoard from "../components/DragBoard";
+import { ThemeContext } from "../context/ContextApi";
+
 
 
 
 
 
 const HomePage = () => {
+  const {user} = useContext(ThemeContext)
 
   const [taskForm, setTaskForm] = useState("");
   const hanldeTaskForm = (category) => {
@@ -24,6 +27,7 @@ const HomePage = () => {
       description,
       category: category,
       addedDate: new Date().toISOString(),
+      email: user.email
     };
     axios.post("http://localhost:5000/tasks", task).then((res) => {
       if (res.data.insertedId) {
@@ -50,7 +54,7 @@ const HomePage = () => {
       <h1 className="font-semibold text-center pt-3 pb-4 text-xl">
         Manage your tasks
       </h1>
-      <div className="grid grid-cols-3 md:gap-3 xl:gap-6">
+      <div className="grid md:grid-cols-3 md:gap-3 xl:gap-6">
         <div className="mx-1 md:mx-2 xl:mx-3 relative">
           <h3 className="font-bold text-sm pb-1">To Do</h3>
           <IoIosAdd

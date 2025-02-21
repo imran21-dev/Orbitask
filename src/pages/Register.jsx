@@ -58,15 +58,15 @@ const Register = () => {
       })
     }
   return (
-    <div className="grid grid-cols-4 h-screen">
-      <figure className="w-full">
+    <div className="grid xl:grid-cols-4 h-screen">
+      <figure className="w-full hidden xl:block h-screen">
         <img
           src={signupImage}
-          className="w-full grayscale-100 h-screen object-cover"
+          className="w-full grayscale-100 h-full object-cover"
         />
       </figure>
 
-      <div className="col-span-3 px-20 w-2/4 mx-auto py-10 flex flex-col justify-center">
+      <div className="xl:col-span-3 px-5 xl:px-20 xl:w-2/4 mx-auto py-10 flex flex-col justify-center">
         <h1 className="text-3xl font-bold">Sign Up</h1>
         <p className="opacity-80 pt-1 pb-5">
           Sign up and take control—organize, prioritize, and achieve!

@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { DragDropContext, Droppable, Draggable } from "@hello-pangea/dnd";
 import { io } from "socket.io-client";
 import { LuPenLine } from "react-icons/lu";
@@ -7,12 +7,13 @@ import Swal from "sweetalert2";
 import axios from "axios";
 import { PiDotsSixVerticalBold } from "react-icons/pi";
 import Modal from "@mui/material/Modal";
+import { ThemeContext } from "../context/ContextApi";
 
 const socket = io("http://localhost:5000");
 
 export default function DragBoard() {
   const [tasks, setTasks] = useState([]);
-
+  const {user} = useContext(ThemeContext)
   useEffect(() => {
     fetchTasks();
 
@@ -21,12 +22,12 @@ export default function DragBoard() {
     return () => socket.off("taskUpdated");
   }, []);
 
+
   const fetchTasks = () => {
-    fetch("http://localhost:5000/tasks")
-      .then((res) => res.json())
-      .then((data) => {
-        data.sort((a, b) => a.order - b.order);
-        setTasks(data);
+    axios.get(`http://localhost:5000/tasks?email=${user.email}`)
+      .then((res) => {
+        res.data.sort((a, b) => a.order - b.order);
+        setTasks(res.data);
       });
   };
 
@@ -109,8 +110,8 @@ export default function DragBoard() {
     const task = { title, description: desc, id };
     axios.patch("http://localhost:5000/task", task).then((res) => {
       if (res.data.modifiedCount) {
-        e.target.reset()
-        setOpen(false)
+        e.target.reset();
+        setOpen(false);
       }
     });
   };
@@ -132,10 +133,8 @@ export default function DragBoard() {
     setId(null);
   };
 
-
-
   return (
-    <div className="grid grid-cols-3 md:gap-3 xl:gap-6 pt-5 justify-items-stretch taskParent">
+    <div className="grid md:grid-cols-3 md:gap-3 xl:gap-6 pt-5 justify-items-stretch taskParent">
       <DragDropContext onDragEnd={handleDragEnd}>
         {["todo", "progress", "done"].map((category) => (
           <Droppable key={category} droppableId={category}>
@@ -143,7 +142,7 @@ export default function DragBoard() {
               <div
                 ref={provided.innerRef}
                 {...provided.droppableProps}
-                className="overflow-auto px-1 md:px-2 xl:px-3 h-[700px] md:h-[600px] xl:h-[700px] taskContainer rounded"
+                className="overflow-auto px-1 md:px-2 xl:px-3 h-max  max-h-[700px] taskContainer rounded"
               >
                 {tasks
                   .filter((task) => task.category === category)
@@ -177,11 +176,11 @@ export default function DragBoard() {
 
                           <div className="absolute top-1 right-1 w-full flex justify-between">
                             {task.category === "todo" ? (
-                              <div className="animate-bounce w-2 h-2 mx-3 mt-1 rounded-full bg-red-500"></div>
+                              <div className="text-red-700 font-black text-[10px] flex"><div className="animate-bounce w-2 h-2 mx-3 mt-1 rounded-full bg-red-500"/>To Do</div>
                             ) : task.category === "progress" ? (
-                              <div className="animate-pulse w-2 h-2 mx-3 mt-1 rounded-full bg-yellow-500 "></div>
+                              <div className="text-yellow-700 font-black text-[10px] flex"><div className="animate-pulse w-2 h-2 mx-3 mt-1 rounded-full bg-yellow-500 "/>In Progress</div>
                             ) : (
-                              <div className=" w-2 h-2 mx-3 mt-1 rounded-full bg-green-500 "></div>
+                              <div className="text-green-700 font-black text-[10px] flex"><div className=" w-2 h-2 mx-3 mt-1 rounded-full bg-green-500 "/>Done</div>
                             )}
 
                             <div>
