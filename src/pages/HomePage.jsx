@@ -29,7 +29,7 @@ const HomePage = () => {
       addedDate: new Date().toISOString(),
       email: user.email
     };
-    axios.post("http://localhost:5000/tasks", task).then((res) => {
+    axios.post("https://task-management-server-7lv2.onrender.com/tasks", task).then((res) => {
       if (res.data.insertedId) {
         e.target.reset();
         setTaskForm("");
